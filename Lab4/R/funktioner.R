@@ -1,9 +1,16 @@
+
 linreg<-function(formula,data){
    #browser()
   
-  X<-model.matrix(formula)
+  X<-model.matrix(formula)  
   y<-as.matrix(get(all.vars(formula)[1]),ncol=1)
-  B_hat<-solve(t(X)%*%X)%*%t(X)%*%y
+  
+  QR <- qr((X))
+  Q <- qr.Q(QR)
+  R <- qr.R(QR)  
+  B_hat <- qr.solve(R) %*% t(Q) %*% as.matrix(y)
+    
+#   B_hat<-solve(t(X)%*%X)%*%t(X)%*%y
   y_hat<-X%*%B_hat
   res<-as.matrix(y-y_hat,ncol=1)
   n<-nrow(X)
@@ -14,7 +21,7 @@ linreg<-function(formula,data){
   t_B<-B_hat/((Var_B_hat)^0.5)
   p_values<-2 * pt(q = -abs(t_B), df=df)
   
-  lista <- list(X=X, y=y, B_hat=B_hat, y_hat=y_hat, res=res, n=n, p=p, df=df,
+  lista <- list(formula=formula, X=X, y=y, B_hat=B_hat, y_hat=y_hat, res=res, n=n, p=p, df=df,
                 sigma_2=sigma_2, Var_B_hat=Var_B_hat, t_B=t_B, p_values=p_values)
 
   returnerad_objekt_i_linregklass <- structure(lista, class="linreg")
@@ -24,6 +31,13 @@ linreg<-function(formula,data){
 }
 
 a<-linreg(y~x2+x1)
+PL <- iris$Petal.Length
+Spe <- iris$Species
+a <- linreg(PL~Spe)
+
+
+a <- linreg(iris$Petal.Length~iris$Species)
+
 
 # Our three inherited functions, from coef, residuals and predict 
 coef.linreg<-function(x){
@@ -43,6 +57,50 @@ residuals.linreg<-function(x){
 }
 
 resid(a)
+
+
+print.linreg <- function(x){
+
+  temp <- rownames(x$B_hat)
+  B_hat <- as.vector(x$B_hat)
+  names(B_hat) <- temp
+  
+  lista <- list(Call=x$formula, Coefficients=B_hat)
+  
+  return(lista)
+}
+
+
+print(a)
+
+plot.linreg<-function(x){
+  
+  sresid_temp <- x$res/sqrt(x$sigma_2[1,1])
+  df<-data.frame(Residuals=x$res,"Fitted values"=x$y_hat, "Standardized residuals"=sresid_temp)
+  
+  p1<-ggplot(data=df) + aes(x=Fitted.values,y=Residuals) + geom_point(shape=21)+
+    geom_hline(yintercept = 0,)+ggtitle("Residuals vs Fitted")  
+  
+  p2 <- ggplot(data=df) + aes(x=Fitted.values,y=Standardized.residuals)+ geom_point(shape=21)+
+    ggtitle("Scale-Location")
+  
+  plot(p1)
+  plot(p2)
+  
+  
+  
+}
+
+plot(a)
+
+
+
+ggplot(a$hat,a$res)
+
+
+
+
+
 
 
 summary.linreg<-function(x){
@@ -81,5 +139,26 @@ lm()
 
 
 model.matrix(y~x1+x2)
+
+
+# 1  linalg	S3	Theme
+# 2	linalg	RC	ej theme
+# 3	QR	S3	ej theme
+
+
+# Get the package to work
+# Write tests
+# Write stopifnots and more.
+# Finish the plot function
+# Calculate standardized residual...
+# and detect outliers?
+# Create a vignette
+
+
+
+
+
+
+
 
 
