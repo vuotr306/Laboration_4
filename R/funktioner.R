@@ -1,9 +1,9 @@
 
 linreg<-function(formula,data){
-   #browser()
+#   browser()
   
-  X<-model.matrix(formula)  
-  y<-as.matrix(get(all.vars(formula)[1]),ncol=1)
+  X<-model.matrix(formula, data=data)  
+  y<-as.matrix(data[all.vars(formula)[1]],ncol=1)
   
   QR <- qr((X))
   Q <- qr.Q(QR)
@@ -20,9 +20,9 @@ linreg<-function(formula,data){
   Var_B_hat<-diag(sigma_2[1,1]*(solve(t(X)%*%X)))
   t_B<-B_hat/((Var_B_hat)^0.5)
   p_values<-2 * pt(q = -abs(t_B), df=df)
-  
+  H_ii <-diag(X %*% solve(t(X) %*% X) %*% t(X))
   linreg_list <- list(formula=formula, X=X, y=y, B_hat=B_hat, y_hat=y_hat, res=res, n=n, p=p, df=df,
-                sigma_2=sigma_2, Var_B_hat=Var_B_hat, t_B=t_B, p_values=p_values)
+                sigma_2=sigma_2, Var_B_hat=Var_B_hat, t_B=t_B, p_values=p_values, H_ii=H_ii)
 
   linreg_object <- structure(linreg_list, class="linreg")
   
@@ -31,20 +31,13 @@ linreg<-function(formula,data){
 }
 
 
-# testexempel, tillsvisdare
-x1 <- iris$Sepal.Width
-x2 <- iris$Sepal.Length
-y <- iris$Petal.Length
 
- # the linreg function
- a<-linreg(y~x2+x1)
- PL <- iris$Petal.Length
- Spe <- iris$Species
- a <- linreg(PL~Spe)
-#  a <- linreg(iris$Petal.Length~iris$Species)
+# the linreg function
+ a <- linreg(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
+ a <- linreg(Petal.Length~Species, data=iris)
 
  # the lm function
- b <- lm(y~x1+x2)
+ b <- lm(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
  b <- lm(Petal.Length~Species, data=iris)
  summary(b)
 

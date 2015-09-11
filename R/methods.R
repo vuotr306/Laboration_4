@@ -17,21 +17,30 @@ print.linreg <- function(x){
 
 plot.linreg<-function(x){
   
-  sresid_temp <- x$res/sqrt(x$sigma_2[1,1])
-  df<-data.frame(Residuals=x$res,"Fitted values"=x$y_hat, "Standardized residuals"=sresid_temp)
+  sresid <- x$res/sqrt(x$sigma_2[1,1])
+  scale_res <- sqrt(abs(sresid))
+  df<-data.frame(x$res, x$y_hat, sresid, scale_res)
+  colnames(df) <- c("Residuals", "Fittedvalues", "Standardized residuals", "scale_res")
   
-  p1<-ggplot(data=df) + aes(x=Fitted.values,y=Residuals) + geom_point(shape=21)+
-    geom_hline(yintercept = 0,)+ggtitle("Residuals vs Fitted")  
+#   browser()
   
-  p2 <- ggplot(data=df) + aes(x=Fitted.values,y=Standardized.residuals)+ geom_point(shape=21)+
-    ggtitle("Scale-Location")
+  
+  
+  p1 <- ggplot(data=df) + theme_bw() + theme(panel.grid.major = element_blank(), axis.text.y = element_text(angle=90)) + aes(x=Fittedvalues,y=Residuals) + geom_point(shape=21,size=8)+
+    ggtitle("Residuals vs Fitted") + geom_hline(yintercept = 0, linetype=3, colour="lightgrey", size=1)
+  
+  p2 <- ggplot(data=df) + theme_bw() + theme(panel.grid.major = element_blank(), axis.text.y = element_text(angle=90)) + aes(x=Fittedvalues,y=scale_res) + geom_point(shape=21,size=8)+
+    ggtitle("Scale-Location") + labs(x = paste("Fitted values\n ", x$formula), y = expression("|Strandardized residuals|"^.5))
+  
   
   plot(p1)
   plot(p2)
   
 }
 
-# plot(a)
+#paste("linreg(", paste(all.vars(a$formula), collapse="~"), ")", sep="", collapse="")
+
+plot(a)
 
 
 
@@ -53,9 +62,17 @@ coef.linreg<-function(x){
 residuals.linreg<-function(x){
   return(x$res)
 }
-
 # resid(a)
 
+
+
+
+rstudent.linreg<-function(x){
+  se<-sqrt(x$sigma_2*(1-x$H_ii))
+  Sres=x$res/se
+  return(Sres)
+}
+rstudent(a)
 
 
 summary.linreg<-function(x){
