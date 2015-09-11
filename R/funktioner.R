@@ -1,6 +1,14 @@
 
-linreg<-function(formula,data){
-#   browser()
+linreg<-function(formula, data){
+#    browser()
+  
+   
+   stopifnot(data != NULL)
+   stopifnot(sum(1-c(all.vars(formula)) %in% colnames(iris)) == 0)
+  
+  
+  
+  
   
   X<-model.matrix(formula, data=data)  
   y<-as.matrix(data[all.vars(formula)[1]],ncol=1)
