@@ -1,1 +1,7 @@
 exportPattern("^[[:alpha:]]+")
+export(plot.linreg)
+export(print.linreg)
+export(summary.linreg)
+export(residuals.linreg)
+export(coef.linreg)
+export(predict.linreg)

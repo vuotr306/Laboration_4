@@ -53,9 +53,9 @@ linreg<-function(formula, data){
 # 3	QR	S3	ej theme
 
 
+# Fix the bug !!!
 # More tests?
 # Write stopifnots and more.
-# Create documentation
 # ??? Finish the plot function (outliers)? 
 # ??? More vignette ?
 

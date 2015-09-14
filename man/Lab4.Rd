@@ -4,8 +4,8 @@
 \name{Lab4}
 \alias{Lab4}
 \alias{Lab4-package}
-\title{Titel}
+\title{Linear regression package}
 \description{
-Laengre forklaring
+A package containing a linear regression function, a linear regression class and some methods for that class.
 }
 
