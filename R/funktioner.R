@@ -55,10 +55,9 @@ linreg<-function(formula, data){
 
 # More tests?
 # Write stopifnots and more.
-# Finish the plot function
-# Calculate standardized residual...
-# and detect outliers?
-# Create a vignette
+# Create documentation
+# ??? Finish the plot function (outliers)? 
+# ??? More vignette ?
 
 
 

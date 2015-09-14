@@ -11,4 +11,6 @@ Description: Contains a function linreg that performs a multiple linear regressi
 License: CC0
 Imports: ggplot2 (>= 1.0.0)
 Depends: R (>= 3.0.0)
-Suggests: testthat
+Suggests: testthat,
+    knitr
+VignetteBuilder: knitr
