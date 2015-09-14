@@ -1,4 +1,4 @@
-
+#hej
 linreg<-function(formula, data){
 #    browser()
   
