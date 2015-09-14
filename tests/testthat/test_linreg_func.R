@@ -1,26 +1,28 @@
 context("linreg function")
 
 
-
-
 test_that("function rejects errounous input.", {
   expect_error(linreg(Petal.Length~Sepdsal.Width+Sepal.Length, data=iris))
   expect_error(linreg(Petal.Length~Sepdsal.Width+Sepal.Length, data=irfsfdis))
 })
 
 
-testobject <- linreg(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
-controlobject <- lm(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
+testobject1 <- linreg(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
+controlobject1 <- lm(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
+
+# testobject2 <- linreg(Petal.Length~Species, data=iris)
+# controlobject2 <- lm(Petal.Length~Species, data=iris)
+
 
 test_that("function returns correct results from specific data.", {
-  expect_is(testobject, class = "linreg")
-  expect_true(is.list(testobject))
-  expect_equal(length(testobject), 15)
-  expect_equal(as.vector(unname(testobject$B_hat)), as.vector(unname(controlobject$coefficients)))
-  expect_equal(as.vector(unname(testobject$y_hat)), unname(controlobject$fitted.values))
-  expect_equal(as.vector(unname(testobject$res)), unname(controlobject$residuals))
-  expect_equal(as.vector(unname(testobject$df)), unname(controlobject$df.residual))
-  #   expect_equal(as.vector(unname(testobject$p_values)), ?????) 
+  expect_is(testobject1, class = "linreg")
+  expect_true(is.list(testobject1))
+  expect_equal(length(testobject1), 15)
+  expect_equal(as.vector(unname(testobject1$B_hat)), as.vector(unname(controlobject1$coefficients)))
+  expect_equal(as.vector(unname(testobject1$y_hat)), unname(controlobject1$fitted.values))
+  expect_equal(as.vector(unname(testobject1$res)), unname(controlobject1$residuals))
+  expect_equal(as.vector(unname(testobject1$df)), unname(controlobject1$df.residual))
+  #   expect_equal(as.vector(unname(testobject1$p_values)), ?????) 
   
   
 })
@@ -41,9 +43,9 @@ test_that("function rejects errounous input.", {
 
 test_that("function returns correct results from specific data.", {
 
-  expect_equal(as.vector(unname(predict(testobject))),unname(controlobject$fitted.values))
-  expect_equal(as.vector(unname(resid(testobject))),unname(controlobject$residuals))
-  expect_equal(as.vector(unname(coef(testobject))),unname(controlobject$coef))
+  expect_equal(as.vector(unname(predict(testobject1))),unname(controlobject1$fitted.values))
+  expect_equal(as.vector(unname(resid(testobject1))),unname(controlobject1$residuals))
+  expect_equal(as.vector(unname(coef(testobject1))),unname(controlobject1$coef))
   
   
 })

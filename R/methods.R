@@ -2,6 +2,7 @@
 
 
 # Our inherited functions, from coef, residuals and predict 
+
 print.linreg <- function(x){
   
   temp <- rownames(x$B_hat)
@@ -19,16 +20,16 @@ print.linreg <- function(x){
 
 plot.linreg<-function(x){
   
-#    browser()
+  #    browser()
   sresid <- x$res/sqrt(x$sigma_2[1,1])
   scale_res <- sqrt(abs(sresid))
-
+  
   df<-data.frame(x$res, x$y_hat, sresid, scale_res)
   colnames(df) <- c("Residuals", "Fittedvalues", "Standardized residuals", "scale_res")
   
   p1 <- ggplot2::ggplot(data=df) + ggplot2::theme_bw() + ggplot2::theme(panel.grid.major = ggplot2::element_blank(), axis.text.y = ggplot2::element_text(angle=90)) + ggplot2::aes(x=Fittedvalues,y=Residuals) + ggplot2::geom_point(shape=21,size=3)+
     ggplot2::ggtitle("Residuals vs Fitted") + ggplot2::geom_hline(yintercept = 0, linetype=3, colour="lightgrey", size=1) +  ggplot2::geom_smooth(method = "lm", formula = y~x, se = FALSE, colour = "red")
-
+  
   
   p2 <- ggplot2::ggplot(data=df) + ggplot2::theme_bw() + ggplot2::theme(panel.grid.major = ggplot2::element_blank(), axis.text.y = ggplot2::element_text(angle=90)) + ggplot2::aes(x=Fittedvalues,y=scale_res) + ggplot2::geom_point(shape=21,size=3)+
     ggplot2::ggtitle("Scale-Location") + ggplot2::labs(x = paste("Fitted values\n ", x$formula), y = expression("|Strandardized residuals|"^.5)) + ggplot2::geom_smooth(method = "lm", formula = y~x, se = FALSE, colour = "red")
@@ -39,9 +40,7 @@ plot.linreg<-function(x){
   
 }
 
-#paste("linreg(", paste(all.vars(a$formula), collapse="~"), ")", sep="", collapse="")
-
-plot(a)
+# plot(a)
 
 
 
@@ -63,17 +62,18 @@ coef.linreg<-function(x){
 residuals.linreg<-function(x){
   return(x$res)
 }
+
 # resid(a)
 
 
 
 
-# rstudent.linreg<-function(x){
-#   se<-sqrt(x$sigma_2*(1-x$H_ii))
-#   Sres=x$res/se
-#   return(Sres)
-# }
-# rstudent(a)
+# # rstudent.linreg<-function(x){
+# #   se<-sqrt(x$sigma_2*(1-x$H_ii))
+# #   Sres=x$res/se
+# #   return(Sres)
+# # }
+# # rstudent(a)
 
 
 summary.linreg<-function(x){
@@ -96,7 +96,6 @@ predict.linreg <- function(x){
 }
 
 # predict(a)
-
 
 
 
