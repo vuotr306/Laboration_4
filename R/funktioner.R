@@ -4,7 +4,9 @@ linreg<-function(formula, data){
   
    
    stopifnot(!is.null(data))
-   stopifnot(sum(1-c(all.vars(formula)) %in% colnames(iris)) == 0)
+   stopifnot(is.data.frame(data))
+   stopifnot(sum(1-c(all.vars(formula)) %in% colnames(data)) == 0)
+#    stopifnot(is.numeric(data$all.vars(formula)[1]))
   
   X<-model.matrix(formula, data=data)  
   y<-as.matrix(data[all.vars(formula)[1]],ncol=1)
