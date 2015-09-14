@@ -17,20 +17,19 @@ print.linreg <- function(x){
 
 plot.linreg<-function(x){
   
+#    browser()
   sresid <- x$res/sqrt(x$sigma_2[1,1])
   scale_res <- sqrt(abs(sresid))
+
   df<-data.frame(x$res, x$y_hat, sresid, scale_res)
   colnames(df) <- c("Residuals", "Fittedvalues", "Standardized residuals", "scale_res")
   
-#   browser()
-  
-  
-  
   p1 <- ggplot(data=df) + theme_bw() + theme(panel.grid.major = element_blank(), axis.text.y = element_text(angle=90)) + aes(x=Fittedvalues,y=Residuals) + geom_point(shape=21,size=8)+
-    ggtitle("Residuals vs Fitted") + geom_hline(yintercept = 0, linetype=3, colour="lightgrey", size=1)
+    ggtitle("Residuals vs Fitted") + geom_hline(yintercept = 0, linetype=3, colour="lightgrey", size=1) +  geom_smooth(method = "lm", formula = y~x, se = FALSE, colour = "red")
+
   
   p2 <- ggplot(data=df) + theme_bw() + theme(panel.grid.major = element_blank(), axis.text.y = element_text(angle=90)) + aes(x=Fittedvalues,y=scale_res) + geom_point(shape=21,size=8)+
-    ggtitle("Scale-Location") + labs(x = paste("Fitted values\n ", x$formula), y = expression("|Strandardized residuals|"^.5))
+    ggtitle("Scale-Location") + labs(x = paste("Fitted values\n ", x$formula), y = expression("|Strandardized residuals|"^.5)) + geom_smooth(method = "lm", formula = y~x, se = FALSE, colour = "red")
   
   
   plot(p1)

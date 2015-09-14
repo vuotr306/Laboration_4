@@ -1,14 +1,10 @@
-#hej
+
 linreg<-function(formula, data){
 #    browser()
   
    
-   stopifnot(data != NULL)
+   stopifnot(!is.null(data))
    stopifnot(sum(1-c(all.vars(formula)) %in% colnames(iris)) == 0)
-  
-  
-  
-  
   
   X<-model.matrix(formula, data=data)  
   y<-as.matrix(data[all.vars(formula)[1]],ncol=1)
@@ -18,6 +14,7 @@ linreg<-function(formula, data){
   R <- qr.R(QR)  
   B_hat <- qr.solve(R) %*% t(Q) %*% as.matrix(y)
     
+  
 #   B_hat<-solve(t(X)%*%X)%*%t(X)%*%y
   y_hat<-X%*%B_hat
   res<-as.matrix(y-y_hat,ncol=1)
@@ -29,7 +26,7 @@ linreg<-function(formula, data){
   t_B<-B_hat/((Var_B_hat)^0.5)
   p_values<-2 * pt(q = -abs(t_B), df=df)
   H_ii <-diag(X %*% solve(t(X) %*% X) %*% t(X))
-  linreg_list <- list(formula=formula, X=X, y=y, B_hat=B_hat, y_hat=y_hat, res=res, n=n, p=p, df=df,
+  linreg_list <- list(formula=formula, data=data, X=X, y=y, B_hat=B_hat, y_hat=y_hat, res=res, n=n, p=p, df=df,
                 sigma_2=sigma_2, Var_B_hat=Var_B_hat, t_B=t_B, p_values=p_values, H_ii=H_ii)
 
   linreg_object <- structure(linreg_list, class="linreg")
@@ -56,8 +53,7 @@ linreg<-function(formula, data){
 # 3	QR	S3	ej theme
 
 
-# Get the package to work
-# Write tests
+# More tests?
 # Write stopifnots and more.
 # Finish the plot function
 # Calculate standardized residual...
