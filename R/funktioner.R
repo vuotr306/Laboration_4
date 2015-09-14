@@ -1,22 +1,22 @@
-
+# Testar fraan laptop.
 linreg<-function(formula, data){
 #    browser()
-  
-   
+
+
    stopifnot(!is.null(data))
    stopifnot(is.data.frame(data))
    stopifnot(sum(1-c(all.vars(formula)) %in% colnames(data)) == 0)
 #    stopifnot(is.numeric(data$all.vars(formula)[1]))
-  
-  X<-model.matrix(formula, data=data)  
+
+  X<-model.matrix(formula, data=data)
   y<-as.matrix(data[all.vars(formula)[1]],ncol=1)
-  
+
   QR <- qr((X))
   Q <- qr.Q(QR)
-  R <- qr.R(QR)  
+  R <- qr.R(QR)
   B_hat <- qr.solve(R) %*% t(Q) %*% as.matrix(y)
-    
-  
+
+
 #   B_hat<-solve(t(X)%*%X)%*%t(X)%*%y
   y_hat<-X%*%B_hat
   res<-as.matrix(y-y_hat,ncol=1)
@@ -32,9 +32,9 @@ linreg<-function(formula, data){
                 sigma_2=sigma_2, Var_B_hat=Var_B_hat, t_B=t_B, p_values=p_values, H_ii=H_ii)
 
   linreg_object <- structure(linreg_list, class="linreg")
-  
+
   return(linreg_object)
-  
+
 }
 
 
@@ -58,7 +58,7 @@ linreg<-function(formula, data){
 # Fix the bug !!!
 # More tests?
 # Write stopifnots and more.
-# ??? Finish the plot function (outliers)? 
+# ??? Finish the plot function (outliers)?
 # ??? More vignette ?
 
 
