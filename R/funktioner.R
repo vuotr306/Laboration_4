@@ -38,25 +38,3 @@ linreg<-function(formula, data){
   
 }
 
-# testobject1 <- linreg(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
-
-
-# Choices ----
-# 1  linalg  S3	Theme
-# 2	linalg	RC	ej theme
-# 3	QR	S3	ej theme
-
-
-# Fix the bug !!!
-# More tests?
-# Write stopifnots and more.
-# ??? Finish the plot function (outliers)?
-# ??? More vignette ?
-
-
-
-
-
-
-
-

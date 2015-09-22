@@ -1,7 +1,7 @@
 Package: Lab4
 Type: Package
 Title: Multiple linear regression
-Version: 0.0.5
+Version: 1.0.0
 Date: 2015-09-10
 Author: c(
  person("Vuong", "Tran", email="vuotr306@student.liu.se", role="aut"),

@@ -27,12 +27,22 @@ plot.linreg<-function(x){
   df<-data.frame(x$res, x$y_hat, sresid, scale_res)
   colnames(df) <- c("Residuals", "Fittedvalues", "Standardized residuals", "scale_res")
   
-  p1 <- ggplot2::ggplot(data=df) + ggplot2::theme_bw() + ggplot2::theme(panel.grid.major = ggplot2::element_blank(), axis.text.y = ggplot2::element_text(angle=90)) + ggplot2::aes(x=Fittedvalues,y=Residuals) + ggplot2::geom_point(shape=21,size=3)+
-    ggplot2::ggtitle("Residuals vs Fitted") + ggplot2::geom_hline(yintercept = 0, linetype=3, colour="lightgrey", size=1) +  ggplot2::geom_smooth(method = "lm", formula = y~x, se = FALSE, colour = "red")
+  p1 <- ggplot2::ggplot(data=df) + ggplot2::theme_bw() + 
+    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), axis.text.y = ggplot2::element_text(angle=90)) + 
+    ggplot2::aes(x=Fittedvalues,y=Residuals) + 
+    ggplot2::geom_point(shape=21,size=3)+
+    ggplot2::ggtitle("Residuals vs Fitted") + 
+    ggplot2::geom_hline(yintercept = 0, linetype=3, colour="lightgrey", size=1) +  
+    ggplot2::geom_smooth(method = "lm", formula = y~x, se = FALSE, colour = "red")
   
   
-  p2 <- ggplot2::ggplot(data=df) + ggplot2::theme_bw() + ggplot2::theme(panel.grid.major = ggplot2::element_blank(), axis.text.y = ggplot2::element_text(angle=90)) + ggplot2::aes(x=Fittedvalues,y=scale_res) + ggplot2::geom_point(shape=21,size=3)+
-    ggplot2::ggtitle("Scale-Location") + ggplot2::labs(x = paste("Fitted values\n ", x$formula), y = expression("|Strandardized residuals|"^.5)) + ggplot2::geom_smooth(method = "lm", formula = y~x, se = FALSE, colour = "red")
+  p2 <- ggplot2::ggplot(data=df) + ggplot2::theme_bw() + 
+    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), axis.text.y = ggplot2::element_text(angle=90)) + 
+    ggplot2::aes(x=Fittedvalues,y=scale_res) + 
+    ggplot2::geom_point(shape=21,size=3)+
+    ggplot2::ggtitle("Scale-Location") + 
+    ggplot2::labs(x = "Fitted values", y = expression(sqrt("|Strandardized residuals|"))) + 
+    ggplot2::geom_smooth(method = "lm", formula = y~x, se = FALSE, colour = "red")
   
   
   plot(p1)
@@ -65,15 +75,6 @@ residuals.linreg<-function(x){
 
 # resid(a)
 
-
-
-
-# # rstudent.linreg<-function(x){
-# #   se<-sqrt(x$sigma_2*(1-x$H_ii))
-# #   Sres=x$res/se
-# #   return(Sres)
-# # }
-# # rstudent(a)
 
 
 summary.linreg<-function(x){
